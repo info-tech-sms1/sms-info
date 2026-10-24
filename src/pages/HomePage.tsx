@@ -171,7 +171,6 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="lg:col-span-5 flex items-center justify-center lg:justify-end w-full">
               <div className="w-full max-w-lg lg:max-w-xl">
                 <HeroFeaturePanel 
-                  imageSrc="/manus-storage/async-images/zWxbcTqSxg8BXHG4nXGu0l/image-1.webp"
                   imageAlt="Safety professionals conducting an on-site workplace safety inspection"
                   caption="Practical safety walkthroughs, tailored to your premises."
                   footerLeft="Ranchi, Jharkhand"
