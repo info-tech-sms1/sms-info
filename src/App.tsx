@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense, type ReactNode } from 'react';
 import Lenis from 'lenis';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -7,17 +7,35 @@ import { safeScrollTo, restoreScrollForRoute, registerLenis } from './utils/scro
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { FloatingActions } from './components/FloatingActions';
-import { HomePage } from './pages/HomePage';
-
+const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const ServicesPage = lazy(() => import('./pages/ServicesPage').then(m => ({ default: m.ServicesPage })));
+const EvacuationPlanningPage = lazy(() => import('./pages/EvacuationPlanningPage').then(m => ({ default: m.EvacuationPlanningPage })));
+const SafetyEquipmentPage = lazy(() => import('./pages/SafetyEquipmentPage').then(m => ({ default: m.SafetyEquipmentPage })));
+const AwarenessEventsPage = lazy(() => import('./pages/AwarenessEventsPage').then(m => ({ default: m.AwarenessEventsPage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
-export default function App() {
+export interface StaticRouteContext {
+  navigateTo: (path: string) => void;
+  selectService: (serviceName: string) => void;
+  initialService: string;
+}
+
+export type StaticRouteRenderer = (path: AppRoute, context: StaticRouteContext) => ReactNode;
+
+interface AppProps {
+  initialPath?: string;
+  staticRouteRenderer?: StaticRouteRenderer;
+}
+
+export default function App({ initialPath, staticRouteRenderer }: AppProps = {}) {
   const [currentPath, setCurrentPath] = useState<AppRoute>(() => {
+    if (initialPath) {
+      return normalizePath(initialPath);
+    }
     if (typeof window !== 'undefined') {
       return normalizePath(window.location.pathname);
     }
@@ -137,6 +155,14 @@ export default function App() {
   };
 
   const renderActivePage = () => {
+    if (staticRouteRenderer) {
+      return staticRouteRenderer(currentPath, {
+        navigateTo,
+        selectService: handleOpenConsultationWithService,
+        initialService: preselectedService,
+      });
+    }
+
     switch (currentPath) {
       case '/':
         return (
@@ -153,29 +179,11 @@ export default function App() {
           />
         );
       case '/evacuation-planning/':
-        return (
-          <ServicesPage 
-            onNavigate={navigateTo} 
-            onSelectService={handleOpenConsultationWithService}
-            initialCategory="evacuation-planning"
-          />
-        );
+        return <EvacuationPlanningPage onNavigate={navigateTo} />;
       case '/safety-equipment/':
-        return (
-          <ServicesPage 
-            onNavigate={navigateTo} 
-            onSelectService={handleOpenConsultationWithService}
-            initialCategory="safety-equipment"
-          />
-        );
+        return <SafetyEquipmentPage onNavigate={navigateTo} onSelectEquipment={handleOpenConsultationWithService} />;
       case '/awareness-events/':
-        return (
-          <ServicesPage 
-            onNavigate={navigateTo} 
-            onSelectService={handleOpenConsultationWithService}
-            initialCategory="safety-awareness"
-          />
-        );
+        return <AwarenessEventsPage onNavigate={navigateTo} onSelectService={handleOpenConsultationWithService} />;
       case '/about/':
         return <AboutPage onNavigate={navigateTo} />;
       case '/contact/':

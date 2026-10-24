@@ -16,10 +16,28 @@ export const PosterModal: React.FC<PosterModalProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const wasOpenRef = useRef(false);
 
   // Lock body scroll while modal is open
   useEffect(() => {
-    if (!poster) return;
+    if (!poster) {
+      if (wasOpenRef.current) {
+        if (openerRef.current?.isConnected) {
+          openerRef.current.focus();
+        }
+        openerRef.current = null;
+        wasOpenRef.current = false;
+      }
+      return;
+    }
+
+    if (!wasOpenRef.current) {
+      const activeElement = document.activeElement;
+      openerRef.current = activeElement instanceof HTMLElement ? activeElement : null;
+      wasOpenRef.current = true;
+    }
+
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 

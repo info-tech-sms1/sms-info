@@ -49,7 +49,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   const [selectedEventType, setSelectedEventType] = useState<'national-safety-day' | 'school-carnival' | 'industrial-rally' | 'residential-assembly'>('national-safety-day');
   const [audienceSize, setAudienceSize] = useState<'50' | '150' | '350' | '500+'>('150');
   const [selectedModules, setSelectedModules] = useState<string[]>([
-    'Live Fire Extinguisher PASS Practice',
+    'Fire Extinguisher Safety Practice',
     'Bilingual Stage Banner & Employee Pledge Cards',
     'Interactive Safety Quiz & Prize Distribution'
   ]);
@@ -150,7 +150,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
   });
 
   const availableModules = [
-    'Live Fire Extinguisher PASS Practice',
+    'Fire Extinguisher Safety Practice',
     'Bilingual Stage Banner & Employee Pledge Cards',
     'Interactive Safety Quiz & Prize Distribution',
     'Choreographed Single-File Evacuation Walkthrough',

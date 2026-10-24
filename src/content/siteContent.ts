@@ -300,7 +300,7 @@ export const siteContent = {
         duration: 'Weekend Morning (90 Mins)',
         summary: 'Family-friendly interactive community event teaching residents, domestic staff, and security guards essential kitchen fire safety, LPG cylinder leak response, and smoke-filled hallway escape rules.',
         highlights: [
-          'Courtyard live fire extinguisher discharge practice for residents',
+          'Courtyard fire extinguisher safety demonstrations for residents',
           'Safe handling and soap-water leak testing for LPG cylinders',
           'Stairwell smoke door clearance and lift-avoidance protocols',
           'Security guard first-responder drill and alarm activation protocol',
@@ -812,7 +812,7 @@ export const siteContent = {
       'Safety Equipment, Fire Systems & PPE Supply',
       'Safety Event Hosting & Awareness Campaigns',
       'Emergency Mock Drills & Evacuation Simulations',
-      'Specialized Electrical & Industrial Safety Inspections',
+      'Specialized Electrical & Industrial Hazard Walkthroughs',
       'Contractor, Driver & Visitor Safety Inductions',
       'General Facility Consultation',
     ],

@@ -9,6 +9,7 @@ export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
     build: {
+      manifest: true,
       rollupOptions: {
         input: {
           main: path.resolve(rootDir, 'index.html'),

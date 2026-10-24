@@ -31,6 +31,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({ initialService }) => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'config_needed' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const successStatusRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (submitStatus === 'success') {
+      successStatusRef.current?.focus();
+    }
+  }, [submitStatus]);
 
   // Client-side validations
   const validate = () => {
@@ -237,7 +244,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({ initialService }) => {
 
       {/* Genuine Success State */}
       {submitStatus === 'success' ? (
-        <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center space-y-4 animate-in fade-in">
+        <div
+          ref={successStatusRef}
+          role="status"
+          tabIndex={-1}
+          className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center space-y-4 animate-in fade-in focus:outline-none"
+        >
           <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
           <h4 className="text-lg font-bold text-emerald-950">
             Inquiry Successfully Received
